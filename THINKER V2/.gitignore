@@ -95,6 +95,8 @@ applet/
 *.i*86
 *.x86_64
 *.hex
+# Thinker SE: keep the prebuilt firmware files tracked
+!/Hex File/**/*.hex
 
 # Debug files
 *.dSYM/
