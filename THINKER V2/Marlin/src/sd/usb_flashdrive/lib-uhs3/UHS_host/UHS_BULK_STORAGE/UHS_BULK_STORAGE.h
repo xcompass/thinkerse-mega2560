@@ -20,13 +20,12 @@ Contact information
 -------------------
 
 Circuits At Home, LTD
-Web      :  http://www.circuitsathome.com
+Web      :  https://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
 
 #ifndef __UHS_BULK_STORAGE_H__
 #define __UHS_BULK_STORAGE_H__
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Define any of these options at the top of your sketch to override
@@ -174,7 +173,7 @@ protected:
         volatile uint16_t CurrentSectorSize[MASS_MAX_SUPPORTED_LUN]; // Sector size, clipped to 16 bits
         volatile bool LUNOk[MASS_MAX_SUPPORTED_LUN]; // use this to check for media changes.
         volatile bool WriteOk[MASS_MAX_SUPPORTED_LUN];
-        void PrintEndpointDescriptor(const USB_ENDPOINT_DESCRIPTOR* ep_ptr);
+        void PrintEndpointDescriptor(const USB_FD_ENDPOINT_DESCRIPTOR* ep_ptr);
 
 public:
         UHS_Bulk_Storage(UHS_USB_HOST_BASE *p);
@@ -201,7 +200,6 @@ public:
         uint8_t SCSITransaction6(SCSI_CDB6_t *cdb, uint16_t buf_size, void *buf, uint8_t dir);
         uint8_t SCSITransaction10(SCSI_CDB10_t *cdb, uint16_t buf_size, void *buf, uint8_t dir);
 
-
         // Configure and internal methods, these should never be called by a user's sketch.
         uint8_t Start();
         bool OKtoEnumerate(ENUMERATION_INFO *ei);
@@ -211,11 +209,9 @@ public:
                 return bAddress;
         };
 
-
         void Poll();
 
         void DriverDefaults();
-
 
 private:
         void Reset();
