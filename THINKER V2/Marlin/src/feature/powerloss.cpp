@@ -475,7 +475,7 @@ void PrintJobRecovery::resume() {
 
     #if !HOMING_Z_DOWN
       // The physical Z was adjusted at power-off so undo the M420S1 correction to Z with G92.9.
-      sprintf_P(cmd, PSTR("G92.9Z%s"), dtostrf(z_now, 1, 1, str_1));
+      sprintf_P(cmd, PSTR("G92.9Z%s"), dtostrf(z_now, 1, 3, str_1));
       PROCESS_SUBCOMMANDS_NOW(cmd);
     #endif
   #endif

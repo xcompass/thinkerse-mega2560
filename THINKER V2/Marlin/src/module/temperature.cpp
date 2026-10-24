@@ -1271,12 +1271,9 @@ inline void loud_kill(FSTR_P const lcd_msg, const heater_id_t heater_id) {
     }
     buzzer.on();
   #endif
-  #if ENABLED(NOZZLE_PARK_FEATURE)
-    if (!homing_needed_error()) {
-      nozzle.park(0);
-      planner.synchronize();
-    }
-  #endif
+  // Thinker SE: no nozzle park here (halt in place, as Eryone's Marlin 2.0 did).
+  // On AVR the park outlasted the 4s watchdog, and in a repeat G28 it started
+  // from the re-zeroed homing axis and drove that axis past its end.
 
   #define _FSTR_BED(h)     TERN(HAS_HEATED_BED,     (h) == H_BED      ? GET_TEXT_F(MSG_BED) :,)
   #define _FSTR_CHAMBER(h) TERN(HAS_HEATED_CHAMBER, (h) == H_CHAMBER  ? GET_TEXT_F(MSG_CHAMBER) :,)

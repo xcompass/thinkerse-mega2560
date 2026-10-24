@@ -1315,7 +1315,13 @@ void test_tmc_connection(LOGICAL_AXIS_ARGS_LC(const bool)) {
     #endif
   }
 
-  if (axis_connection) LCD_MESSAGE(MSG_ERROR_TMC);
+  // Thinker SE: with TMC_UART_IS_WRITE_ONLY (no RX wired, as on the Eryone Thinker V2 board,
+  // where only TX1/D18 reaches the drivers) skip the LCD error; the serial report above is kept.
+  #if DISABLED(TMC_UART_IS_WRITE_ONLY)
+    if (axis_connection) LCD_MESSAGE(MSG_ERROR_TMC);
+  #else
+    UNUSED(axis_connection);
+  #endif
 }
 
 #endif // HAS_TRINAMIC_CONFIG
