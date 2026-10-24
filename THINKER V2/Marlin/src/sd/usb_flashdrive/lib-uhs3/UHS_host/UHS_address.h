@@ -20,7 +20,7 @@ Contact information
 -------------------
 
 Circuits At Home, LTD
-Web      :  http://www.circuitsathome.com
+Web      :  https://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
 
@@ -28,8 +28,6 @@ e-mail   :  support@circuitsathome.com
 #error "Never include UHS_address.h directly; include UHS_Usb.h instead"
 #else
 #define __ADDRESS_H__
-
-
 
 /* NAK powers. To save space in endpoint data structure, amount of retries before giving up and returning 0x4 is stored in */
 /* bmNakPower as a power of 2. The actual nak_limit is then calculated as nak_limit = ( 2^bmNakPower - 1) */
@@ -191,7 +189,6 @@ public:
 
                 return (!index) ? NULL : &thePool[index];
         };
-
 
         // Allocates new address
 

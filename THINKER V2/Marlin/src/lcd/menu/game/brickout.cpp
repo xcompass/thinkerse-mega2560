@@ -1,6 +1,6 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
  * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 
@@ -44,14 +44,14 @@ brickout_data_t &bdat = marlin_game_data.brickout;
 
 inline void reset_bricks(const uint16_t v) {
   bdat.brick_count = (BRICK_COLS) * (BRICK_ROWS);
-  LOOP_L_N(i, BRICK_ROWS) bdat.bricks[i] = v;
+  for (uint8_t i = 0; i < BRICK_ROWS; ++i) bdat.bricks[i] = v;
 }
 
 void reset_ball() {
   constexpr uint8_t ball_dist = 24;
   bdat.bally = BTOF(PADDLE_Y - ball_dist);
-  bdat.ballv = FTOP(1.3f);
-  bdat.ballh = -FTOP(1.25f);
+  bdat.ballv = FTOF(1.3f);
+  bdat.ballh = -FTOF(1.25f);
   uint8_t bx = bdat.paddle_x + (PADDLE_W) / 2 + ball_dist;
   if (bx >= LCD_PIXEL_WIDTH - 10) { bx -= ball_dist * 2; bdat.ballh = -bdat.ballh; }
   bdat.ballx = BTOF(bx);
@@ -117,13 +117,11 @@ void BrickoutGame::game_screen() {
           }
           else if (diff <= 3) {
             bdat.ballh += fixed_t(random(-64, 0));
-            NOLESS(bdat.ballh, BTOF(-2));
-            NOMORE(bdat.ballh, BTOF(2));
+            LIMIT(bdat.ballh, BTOF(-2), BTOF(2));
           }
           else if (diff >= PADDLE_W-1 - 3) {
             bdat.ballh += fixed_t(random( 0, 64));
-            NOLESS(bdat.ballh, BTOF(-2));
-            NOMORE(bdat.ballh, BTOF(2));
+            LIMIT(bdat.ballh, BTOF(-2), BTOF(2));
           }
 
           // Paddle hit after clearing the board? Reset the board.

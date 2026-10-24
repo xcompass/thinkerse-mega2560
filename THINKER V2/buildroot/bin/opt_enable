@@ -1,11 +1,23 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python3
 
-SED=$(which gsed || which sed)
+import sys, os, config
 
-for opt in "$@" ; do
-  eval "${SED} -i 's/\/\/[[:blank:]]*\(#define \b${opt}\b\)/\1/g' Marlin/Configuration.h"
-done
+def main():
+    args = sys.argv[1:]
 
-for opt in "$@" ; do
-  eval "${SED} -i 's/\/\/[[:blank:]]*\(#define \b${opt}\b\)/\1/g' Marlin/Configuration_adv.h"
-done
+    files = config.pop_and_resolve_base_arg(args)
+
+    for name in args:
+        changed = False
+
+        for file in files:
+            if os.path.exists(file):
+                if config.enable(file, name):
+                    changed = True
+
+        if not changed:
+            print(f"ERROR: Can't find {name}")
+            exit(1)
+
+if __name__ == "__main__":
+    main()

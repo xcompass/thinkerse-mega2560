@@ -19,7 +19,7 @@
  * -------------------
  *
  * Circuits At Home, LTD
- * Web      :  http://www.circuitsathome.com
+ * Web      :  https://www.circuitsathome.com
  * e-mail   :  support@circuitsathome.com
  */
 
@@ -79,7 +79,6 @@
 
 #define HID_DESCRIPTOR_HID                      0x21
 
-
 /* OTG SET FEATURE Constants    */
 #define OTG_FEATURE_B_HNP_ENABLE                3       // SET FEATURE OTG - Enable B device to perform HNP
 #define OTG_FEATURE_A_HNP_SUPPORT               4       // SET FEATURE OTG - A device supports HNP
@@ -91,7 +90,6 @@
 #define USB_TRANSFER_TYPE_BULK                  0x02    // Endpoint is a bulk endpoint.
 #define USB_TRANSFER_TYPE_INTERRUPT             0x03    // Endpoint is an interrupt endpoint.
 #define bmUSB_TRANSFER_TYPE                     0x03    // bit mask to separate transfer type from ISO attributes
-
 
 /* Standard Feature Selectors for CLEAR_FEATURE Requests    */
 #define USB_FEATURE_ENDPOINT_STALL              0       // Endpoint recipient
@@ -116,7 +114,7 @@ typedef struct {
         uint8_t iProduct; // Index of String Descriptor describing the product.
         uint8_t iSerialNumber; // Index of String Descriptor with the device's serial number.
         uint8_t bNumConfigurations; // Number of possible configurations.
-} __attribute__((packed)) USB_DEVICE_DESCRIPTOR;
+} __attribute__((packed)) USB_FD_DEVICE_DESCRIPTOR;
 
 /* Configuration descriptor structure */
 typedef struct {
@@ -128,7 +126,7 @@ typedef struct {
         uint8_t iConfiguration; // Index of String Descriptor describing the configuration.
         uint8_t bmAttributes; // Configuration characteristics.
         uint8_t bMaxPower; // Maximum power consumed by this configuration.
-} __attribute__((packed)) USB_CONFIGURATION_DESCRIPTOR;
+} __attribute__((packed)) USB_FD_CONFIGURATION_DESCRIPTOR;
 
 /* Interface descriptor structure */
 typedef struct {
@@ -141,7 +139,7 @@ typedef struct {
         uint8_t bInterfaceSubClass; // Subclass code (assigned by the USB-IF).
         uint8_t bInterfaceProtocol; // Protocol code (assigned by the USB-IF).  0xFF-Vendor specific.
         uint8_t iInterface; // Index of String Descriptor describing the interface.
-} __attribute__((packed)) USB_INTERFACE_DESCRIPTOR;
+} __attribute__((packed)) USB_FD_INTERFACE_DESCRIPTOR;
 
 /* Endpoint descriptor structure */
 typedef struct {
@@ -151,7 +149,7 @@ typedef struct {
         uint8_t bmAttributes; // Endpoint transfer type.
         uint16_t wMaxPacketSize; // Maximum packet size.
         uint8_t bInterval; // Polling interval in frames.
-} __attribute__((packed)) USB_ENDPOINT_DESCRIPTOR;
+} __attribute__((packed)) USB_FD_ENDPOINT_DESCRIPTOR;
 
 /* HID descriptor */
 typedef struct {

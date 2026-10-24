@@ -20,7 +20,7 @@ Contact information
 -------------------
 
 Circuits At Home, LTD
-Web      :  http://www.circuitsathome.com
+Web      :  https://www.circuitsathome.com
 e-mail   :  support@circuitsathome.com
  */
 
@@ -166,8 +166,6 @@ extern "C" {
 #else
 #error no STDIO
 #endif // defined(ARDUINO_ARCH_PIC32)
-
-
 
 #ifdef __AVR__
 // The only wierdo in the bunch...

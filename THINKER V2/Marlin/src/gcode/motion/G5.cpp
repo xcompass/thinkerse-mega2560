@@ -1,6 +1,6 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
  * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 
@@ -24,42 +24,45 @@
 
 #if ENABLED(BEZIER_CURVE_SUPPORT)
 
+#if AXIS_COLLISION('I') || AXIS_COLLISION('J')
+  #error "G5 parameter 'I' or 'J' collision with axis name."
+#endif
+
 #include "../../module/motion.h"
 #include "../../module/planner_bezier.h"
 
 /**
  * Parameters interpreted according to:
- * http://linuxcnc.org/docs/2.6/html/gcode/parser.html#sec:G5-Cubic-Spline
+ * https://linuxcnc.org/docs/2.7/html/gcode/g-code.html#gcode:g5
  * However I, J omission is not supported at this point; all
  * parameters can be omitted and default to zero.
  */
 
 #include "../gcode.h"
-#include "../../Marlin.h" // for IsRunning()
+#include "../../MarlinCore.h" // for IsRunning()
 
 /**
  * G5: Cubic B-spline
  */
 void GcodeSuite::G5() {
-  if (MOTION_CONDITIONS) {
+  if (!MOTION_CONDITIONS) return;
 
-    #if ENABLED(CNC_WORKSPACE_PLANES)
-      if (workspace_plane != PLANE_XY) {
-        SERIAL_ERROR_MSG(MSG_ERR_BAD_PLANE_MODE);
-        return;
-      }
-    #endif
+  #if ENABLED(CNC_WORKSPACE_PLANES)
+    if (workspace_plane != PLANE_XY) {
+      SERIAL_ERROR_MSG(STR_ERR_BAD_PLANE_MODE);
+      return;
+    }
+  #endif
 
-    get_destination_from_command();
+  get_destination_from_command();
 
-    const xy_pos_t offsets[2] = {
-      { parser.linearval('I'), parser.linearval('J') },
-      { parser.linearval('P'), parser.linearval('Q') }
-    };
+  const xy_pos_t offsets[2] = {
+    { parser.linearval('I'), parser.linearval('J') },
+    { parser.linearval('P'), parser.linearval('Q') }
+  };
 
-    cubic_b_spline(current_position, destination, offsets, MMS_SCALED(feedrate_mm_s), active_extruder);
-    current_position = destination;
-  }
+  cubic_b_spline(current_position, destination, offsets, MMS_SCALED(feedrate_mm_s), active_extruder);
+  current_position = destination;
 }
 
 #endif // BEZIER_CURVE_SUPPORT
